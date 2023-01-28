@@ -9,3 +9,4 @@
 - Live Server
 - MongoDB
 - Thunder Client
+- Database Client
