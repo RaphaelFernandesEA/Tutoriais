@@ -3,6 +3,7 @@
 - VSCode-icons
 - Code Runner
 - Dev Containers
+- Docker
 - ESLint
 - IntelliCode
 - IntelliCode API Usage Example
