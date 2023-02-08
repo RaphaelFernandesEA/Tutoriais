@@ -66,7 +66,7 @@ O conteúdo criado será algo como :
 A tag **<form/ >** é a forma de integração do usuário com o sistema web, para coletar e trabalhar com dados.
 
 A tag possui algumas propriedades importantes tais como:
-- **action:** Serve para indicar onde as informações serão enviadas coomo outro página html;
+- **action:** Serve para indicar onde as informações serão enviadas como outro página html;
 - **method:** Serve para indicar o método http que irmemos utilizar (**GET** ou **POST**):
   - **GET**: Os dados enviados serão enviados através da URL da página
   - **POST**:  Os dados são enviados de forma "mais escondida" para outro ambiente sem ser pela URL.
@@ -76,6 +76,12 @@ A tag possui algumas propriedades importantes tais como:
 - **enctype:** Esse atributo é utilizado quando no método POST, se deseja enviar algum arquivo, não apenas texto.
       
       <form enctype="multipart/form/data" />
+
+### Labels
+
+Os elementos <label/ > são "etiquetas" para acompanhar cada input do formulário, com eles é possível selecionar o input, clicando em qualquer área do mesmo como exemplo e seus nomes. 
+
+Possui como propriedade o ***"htmlfor"*** ou ***"for"*** (react ou html puro) que deve conter o name ou id do input a que faz referência.
 ### Inputs
 
 Na criação de formuçários se faz necessária a criação dos campos específicos para inserção das informações a serem trabalhadas. Dessa forma, as tags <input/ > possuem alguns ***tipos*** e ***atributos***:
@@ -92,6 +98,7 @@ Na criação de formuçários se faz necessária a criação dos campos específ
 - **number:** define um campo de entrada numérico;
 - **password:** os caracteres do campo de senha são mascarados (mostrados como asteriscos ou círculos);
 - **radio:** permite que uma pessoa usuária selecione APENAS UMA de um número limitado de opções;
+    - O atributo de seleção dos ***radios*** é **checked** e não ***selected.***
 - **range:** define um controle para inserir um número (como um controle deslizante). Intervalo padrão é de 0 a 100;
 - **reset**: redefinirá todos os valores do formulário para seus valores padrão;
 - **search:** usado para campos de pesquisa;
@@ -119,6 +126,15 @@ submit: envia dados de formulário a um manipulador de formulários (especificad
 - **autofocus:** especifica que um campo de entrada deve obter foco automaticamente quando a página é carregada;
 - **height e width:** especificam a altura e a largura de um elemento;
 - **autocomplete:** especifica se um campo de entrada deve ter o preenchimento automático ativado ou desativado.
+
+### Textarea
+A tag <textarea/ > possibilita a criação de caixas de texo e tem como atributospassíveis de configuração o número de linhas e colunas:
+- **cols:** número de colunas;
+- **rows:** número de linhas;
+
+### Button (submit)
+
+O botão do tipo **submit** possui como **comportamento padrão** o envio das informaçẽos do formulário e atualização da página. Para evitar tal comportamento se faz necessário a adição do atributo/função ***preventDefault().***
 
 
 # Estilização com CSS
@@ -208,6 +224,20 @@ Para fazer atribuições específica dos elementos é recomendado a leitura da <
 - Uma pseudo-classe CSS é uma palavra-chave adicionada a seletores que especifica um estado especial do elemento selecionado.
 
 <strong>[Documentação de pseudo-classes](https://developer.mozilla.org/pt-BR/docs/Web/CSS/Pseudo-classes)</strong>
+
+## Frameworks CSS
+
+**[Bootstrap](https://getbootstrap.com/)**
+
+**[Popper](https://popper.js.org/)**
+
+**[Bulma](https://bulma.io/)**
+
+**[Semanti UI](https://semantic-ui.com/)**
+
+**[Highcharts](https://www.highcharts.com/)**
+
+**[Materializecss](https://materializecss.com/cd)**
 
 # Aplicando JavaScript nas paginas HTML
 
