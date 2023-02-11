@@ -239,6 +239,8 @@ Para fazer atribuições específica dos elementos é recomendado a leitura da <
 
 **[Materializecss](https://materializecss.com/cd)**
 
+# [CSS FLEXBOX](CSS-Flexbox.md)
+
 # Aplicando JavaScript nas paginas HTML
 
 ## JavaScript: DOM, Eventos e Web Storage
