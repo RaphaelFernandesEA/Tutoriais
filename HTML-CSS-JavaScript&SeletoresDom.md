@@ -206,13 +206,19 @@ Exemplo:
 
     Esta solução estará aplicando o background vermelho à terceira div encontrada no documento.
 
+      .flex-container > .box:nth-child(1) {
+        font-style: italic;
+      }
+
+    Nesta solução procuramos dentro do elemento com classe flex-container o primeiro elemento filho com classe a box.
+
 👀 De forma similar você pode buscar pelos filhos do elemento de forma específica, conforme segue: 
 
     div:nth-child(odd) > h3{
       font-style: italic;
     }
   
-    Bônus: Na forma acima buscamos pelos filhos ímpares do elemento (even or odd)
+    Bônus: Na forma acima buscamos pelos filhos que sejam h3 ímpares do elemento div(even or odd)
 
 
 ## Descendencia e combinação de Seletores

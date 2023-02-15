@@ -26,7 +26,7 @@ Flex Lines são linhas imaginárias usadas para agrupamento e alinhamento de fle
 
 - Um Flex container multi-line quebra seus flex items em múltiplas linhas. Isso é similar ao que acontece quando um texto é quebrado em uma nova linha quando está muito grande (overflow).
 
-### Propriedades
+### Propriedades do ***container:***
 
 - **flex-direction:** Define a direção dos flex items e modifica quem é o Main Axis. ***Por padrão essa propriedade é*** **row** ***(linha)*** e com isso os elementos ficam um ao lado do outro. Os outros valores que essa propriedade possui são o **row-reverse**, em que os itens ficam em linha reversa, o **column**, onde os itens ficam em uma única coluna, um embaixo do outro, e o **column-reverse**, em que os itens também ficam um embaixo do outro, porém em ordem reversa.
 
@@ -55,3 +55,31 @@ Flex Lines são linhas imaginárias usadas para agrupamento e alinhamento de fle
   - **center:** Alinha todas as linhas ao centro;
   - **space-between:** Cria um espaçamento igual entre as linhas, mantendo a primeira grudada no topo e a última no bottom e;
   - **space-around:** Também cria um espaçamento entre as linhas, mas os espaçamentos do meio são duas vezes maiores que o top e o bottom.
+
+### Propriedades dos ***Flex items:***
+
+Os elementos presentes em um **Flex container** são chamados de **Flex items**. O **Flexbox** possui propriedades que impactam diretamente esses elementos, fazendo com que a pessoa desenvolvedora tenha um controle melhor em relação à estrutura da página.
+
+- **align-self:** A propriedade **align-self** nos permite utilizar os valores de alinhamento **flex-start, flex-end, stretch, baseline** e **center** somente para um item. Assim, podemos criar uma nova classe, pseudoclasse ou id para um item e editar sua posição individualmente, fazendo com que ele, diferente dos demais, fique no início ou ao final do container, centralizado, como preferir.
+
+- **order:** A propriedade **order** nos permite ordenar itens de um determinado container. Essa propriedade é particular de cada item e, quando utilizada, fará com que o flexbox os exiba em ordem crescente. Por padrão, a propriedade order, implicitamente, possui o valor 0, isso significa que, se apenas um item dentre 5 em um container recebe a propriedade order: 1, todos os outros ficarão ordenados da forma que foram construídos no HTML, enquanto este será posicionado após os demais.
+É interessante chamar a atenção para o fato de que a propriedade aceita valores negativos. Assim, caso o item diferentão receba **order: -1**, ele será exibido antes dos demais (porque order sempre tratará os itens em ordem crescente).
+
+#### Relação de tamanhos no container:
+
+- **flex-grow:** A propriedade **flex-grow** define o quanto de espaço vago será ocupado por um item - **valor padrão 0**.
+
+- **flex-shrink:** Surge para garantir o quanto um item será comprimido em comparação aos demais - **valor padrão 1**.
+
+- **flex-basis:** A propriedade **flex-basis** tem a função de definir o tamanho base de um item no container. **O valor padrão dessa propriedade é auto** - mantendo a flexibilidade do item de acordo com o tamanho do container.
+
+- **FLEX**: Pela propriedade **flex**, é possível fazer a atribuição das 3 propriedade acima de uma só vez pelo ordem apresentada 
+
+      Exemplo:
+
+      div {
+        felx: 1 1 auto
+      }
+      flex-grow - flex-shrink - flex-basis
+
+      👀 Observação: Na utilização de apenas 2 parametros o CSS entende que estão sendo passados apenas o flex-grow e o flex-basis.
