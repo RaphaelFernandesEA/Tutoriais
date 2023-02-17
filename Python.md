@@ -271,11 +271,49 @@ Esta configuração garante que nosso script será executado utilizando a versã
 
 Um primeiro grande detalhe da linguagem **Python** é a sua simplicidade e legibilidade. Dessa forma, cabe traçar algumas especificidades da linguagem:
 
--  Não é necessário a utilização de **let, var** ou **const** nas atribuições;
+- Todo arquivo com extensão .py é considerado um módulo. Módulos são declarados utilizando snake case, ou seja, com nomes minúsculos e quando possuírem mais de uma palavra, devem ser separadas por **underscore (_)**.
+
+- O **import** é utilizado para termos todas as funções do módulo disponíveis em outro arquivo. Uma outra maneira de utilizarmos é escrevendo ***from area import rectangle***, por exemplo, se quisermos importar apenas rectangle a partir de area.
+
+**⚠️ Atenção: Tomar cuidado com conflitos de nomes caso use essa segunda maneira.**
+
+***
+**Exemplos:**
+
+    #importa o módulo area criado com todas as suas funções
+    import area 
+
+    #importa apenas a função rectangle do modulo area
+    from area import rectangle
+***
+
 - Não se faz necessário o uso do **" ; "** no final de cada linha de fim de código.
+
 - A linguagem se baseia na identação e utiliza como padrão 4 espaços;
+
 - Há ausência de chaves para definir blocos de funções. Para isso utiliza-se o caractere **" : "** um bloco que iniciará na pŕoxima linha.
+
+- Entre cada função usa-se um espaço de 2 linhas;
+
+- As funções são declaradas com nomes em letras minúsculas;
+
+- Não é necessário a utilização de **let, var** ou **const** nas atribuições;
+
+- Uma constante é definida em letras maiúsculas.
+    - **⚠️ Aviso:** Existe uma convenção de declarar valores considerados constantes com letras maiúsculas, e o respeito por outros programadores de não alterarem aquele valor.
+
 - O operador **" // "** realiza a divisão e arredonda o resultado para baixo. Ou seja, realiza o quociente.
+
+- No caso de código de testes presentes nos módulos, a variável __name__ é utilizada pelo interpretador Python para identificar o arquivo que esta sendo executado e seu valor será "__main__" quando invocamos um módulo como script:
+
+*** 
+**Exemplo:**
+
+    if __name__ == "__main__":
+        print("Área do quadrado:", square(10))
+        print("Área do retângulo:", rectangle(2, 2))
+        print("Área do círculo:", circle(3))
+***
 
 ## **Tipos de dados embutidos**
 
