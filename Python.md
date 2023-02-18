@@ -304,7 +304,7 @@ Um primeiro grande detalhe da linguagem **Python** é a sua simplicidade e legib
 
 - O operador **" // "** realiza a divisão e arredonda o resultado para baixo. Ou seja, realiza o quociente.
 
-- No caso de código de testes presentes nos módulos, a variável __name__ é utilizada pelo interpretador Python para identificar o arquivo que esta sendo executado e seu valor será "__main__" quando invocamos um módulo como script:
+- No caso de código de testes presentes nos módulos, a variável __ name__ é utilizada pelo interpretador Python para identificar o arquivo que esta sendo executado e seu valor será "__ main__" quando invocamos um módulo como script:
 
 *** 
 **Exemplo:**
@@ -315,6 +315,84 @@ Um primeiro grande detalhe da linguagem **Python** é a sua simplicidade e legib
         print("Área do círculo:", circle(3))
 ***
 
+## **Módulos**
+
+Um módulo é um arquivo que contém definições e instruções em Python. O nome do arquivo é um nome acrescido de .py. Pode-se importar um módulo dentro de um outro arquivo Python e ter acesso às suas funções, classes, etc.
+
+Em linhas gerais, todo arquivo que é escrito com a linguagem Python e com a extensão .py é considerado um módulo.
+
+## **Pacotes**
+
+Pacotes são módulos Python que contêm outros módulos e/ou pacotes, comumente separados por responsabilidades similares. Na prática, um pacote é um diretório que pode conter vários módulos (arquivos de extensão .py) e/ou outros pacotes.
+
+***
+Exemplo de tipos diferentes de imports de pacotes:
+
+    import http  # importa o pacote http como um módulo
+
+    from http import client  # importa o módulo client do pacote http
+
+    from http.client import HTTP_PORT  # importa a constante HTTP_POST do módulo client do pacote http
+***     
+
+## **Ambiente Virtual**
+
+Em **Python** é possível ter ter dois projetos rodando em dois ambientes diferentes, que podem ter versões diferentes de uma mesma biblioteca.
+
+Na prática, são instaladas as bibliotecas em um diretório que está relacionado ao projeto. Assim, cada projeto pode ter suas próprias bibliotecas na versão que quiser. A ideia é a mesma do npm.
+
+Para crição de um ambiente virtual usa-se o comando **na raiz do projeto:**
+
+***
+    python3 -m venv .venv
+    # .venv é o nome do ambiente isolado
+***
+
+⚠️ *Caso o venv não esteja instalado, utilize o comando **sudo apt install python3-venv**.*
+
+Este ambiente isolado será visto como um diretório criado na raiz do projeto. O ponto na frente do nome faz com que o diretório fique oculto.
+
+Depois de criado, temos que ativar este ambiente para usá-lo. Isto é importante pois sempre que decidirmos trabalhar neste projeto devemos repetir este passo.
+
+***
+    source .venv/bin/activate
+***
+Para conferir se o comando de ativação do ambiente virtual deu certo:
+
+***
+    which python3
+***
+O resultado será o caminho para a pasta onde você criou seu ambiente virtual (pwd), acrescido de ***".venv/bin/python3"*** e o ambiente estará preparado para a instalação das bibliotecas que precisaremos nos projetos.
+
+## **Entrada e saída de dados**
+
+Uma das maneiras que existem de receber valores em nossos programas é através da função input, que vem embutida na própria linguagem. Esta função está vinculada à entrada padrão do sistema operacional e tem como parâmetro opcional o prompt que, caso seja fornecido, exibirá a mensagem passada para ele em tela. **O valor recebido através da função será do tipo texto (str):**
+
+***
+    input("Digite uma mensagem:")
+***
+
+Outra maneira de recebermos valores externos na execução de nossos programas é utilizando o módulo sys. Quando executamos um script e adicionamos parâmetros, os mesmos estarão disponíveis através de uma variável chamada sys.argv, que é preenchida sem que precisemos fazer nada. Na prática, podemos escrever o conteúdo abaixo em um arquivo e passar alguns parâmetros ao executá-lo.
+
+***
+    import sys
+
+
+    if __name__ == "__main__":
+        for argument in sys.argv:
+            print("Received -> ", argument)
+***
+Executa-se o código usando os parâmetros através do comando abaixo por exemplo:
+***
+    python3 arquivo.py 2 4 "teste"
+***
+A saída será:
+***
+    Received ->  arquivo.py
+    Received ->  2
+    Received ->  4
+    Received ->  teste
+***
 ## **Tipos de dados embutidos**
 
 ### **Booleanos (bool)**
@@ -403,8 +481,8 @@ Estrutura que associa uma chave a um determinado valor. É a representação do 
 
 **people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}**  # elementos no formato "chave: valor" separados por vírgula, envolvidos por chaves
 
-⚠️ **Acesso e operações:**
 ***
+⚠️ **Acesso e operações:**
 
     # outro exemplo, dessa vez usando strings como chaves. As aspas são necessárias para que o Python não ache que `Maria`, `Fernanda` e `Felipe` sejam variáveis.
     people_by_name = {"Maria": 1, "Fernanda": 2, "Felipe": 3}
@@ -417,8 +495,6 @@ Estrutura que associa uma chave a um determinado valor. É a representação do 
 ---
 
   **⚠️ Atenção:**
-
-  ---
     
     people_by_id.items()  
     # dict_items([(1, "Maria"), (2, "Fernanda"), (3, "Felipe")])
@@ -433,9 +509,7 @@ Estrutura capaz de gerar uma sequência numérica de um valor inicial até um va
 **👀 Obs:** O stop não é incluído na sequência, portanto, caso queira uma sequência de 1 até 10 a chamada deverá ser range(1, 11). Seus valores são criados à medida que esta sequência é percorrida.
 
 **Demonstrações:**
-
 ---
-
     # vamos converter o range em uma lista para ajudar na visualização
 
     # definimos somente o valor de parada
@@ -504,7 +578,7 @@ Dado que a maior parte do tempo estamos percorrendo estruturas, os criadores do 
 
 **👀 Observação:** Além de listas, várias outras estruturas são iteráveis, como strings (str), tuplas (tuple), conjuntos (set), dicionários (dict) e até mesmo arquivos.
 
-### **Compreensão de lista (list comprehension)**
+## **Compreensão de lista (list comprehension)**
 
 A compreensão de listas em Python possui uma sintaxe fácil e compacta para criação de listas, seja a partir de uma string ou de outra lista. É uma maneira concisa de criação que executa uma operação em cada item da lista já existente. A compreensão de lista é equivalente às operações de **map** e **filter** em JavaScript.
 
@@ -579,7 +653,33 @@ Com o while pode-se executar um conjunto de declarações enquanto a condição 
 ---
     a, b = b, a
 
----    
+---
+
+### **all**
+Retorna True se todos metodos booleanos forem True.
+
+**👀 Obs:** Em valores numéricos retorna false para o número 0.
+***
+    languages = ['Python', 'Java', 'JavaScript']
+    languages2 = ['Python', 'Java', 'JavaScript', '']
+
+    test = all(languages)  # retorna true
+
+    tes2 = all(languages2)  # retorna false
+***
+
+### **any**
+Retorna True se algum dos metodos booleanos for True.
+
+***
+    languages = ['Python', 'Java', 'JavaScript']
+    languages2 = ['Python', 'Java', 'JavaScript', '']
+
+    test = all(languages)  # retorna true
+
+    tes2 = all(languages2)  # também retorna true
+***
+
 ### **enumerate**
 
 Em Python, um loop for geralmente é escrito como um loop sobre um objeto iterável. Isso significa que não precisa de uma variável de contagem para acessar itens no iterável.
@@ -612,6 +712,33 @@ pode-se também desestruturar (unpack) os itens da lista ou tupla:
 
 ---
 👀 **Obs:** A letra ***f*** usada dentro do print é chamada de **f-string.** Ela fornece uma maneira de incorporar expressões dentro de strings literais, usando uma sintaxe mínima.
+
+### **Counter**
+O método counter é uma classe que cria, a partir de um objeto iterável (lista), um dicionário com o número de repetições de cada elemento presente na lista.
+
+***
+**Exemplo:**
+
+    from collections import Counter
+
+    numbers = [1, 1, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 8, 8, 9, 9, 9, 9]
+
+    conter = Counter(numbers)
+    print(counter)
+
+    #saída Counter({6: 4, 9: 4, 1: 3, 5: 2, 8: 2, 2: 1, 3: 1, 4: 1, 7: 1})
+
+**👀 Obs:** Por ser um dicionário, ele não apresenta os números no resultado ordenados pela ordem em que aparecem e sim pela quantidade de ocorrências. 
+
+    print(counter[1]) #saída 3 => por que o número 1 aparece 3 vezes, não fazendo referência ao segundo elemento da lista de fato. 
+#### **.most_common()**
+
+O método .most_common() retorna uma lista de duplas com a ordem dos elementos mais comuns da lista pela ordem de ocorrências apresentando o elemento e seu número de ocorrências.
+
+    mais_comum = counter.most_common()
+
+    #saída [(6, 4), (9, 4), (1, 3), (5, 2), (8, 2), (2, 1), (3, 1), (4, 1), (7, 1)]
+
 
 ## **Funções**
 
@@ -678,3 +805,36 @@ Em alguns casos, podemos querer limitar um parâmetro em nomeado ou posicional p
     
     print("Jorge", "Rodrigo", "Bruno", sep=", ") # imprime: Jorge, Rodrigo, Bruno
     ***
+
+## **PEP 257 - Convenções Docstring**
+
+As **docstrings do Python** são os literais de string que aparecem logo após a definição de uma função, método, classe ou módulo. O objetivo deste PEP é padronizar a estrutura de alto nível das docstrings: o que elas devem conter e como dizê-lo (sem tocar em nenhuma sintaxe de marcação dentro das docstrings). O PEP contém convenções, não leis ou sintaxe.
+
+***
+Exemplo:
+
+    def quadrado(n):
+        '''Recebe um número n, retorna o quadrado de n''' # Literal de string
+        return n**2
+
+Dentro das aspas triplas está a docstring da função quadrado() como aparece logo após sua definição.
+
+**👀 Obs:** Pode-se também usar aspas """ triplas para criar docstrings.
+***
+
+### **Atributo __ doc__ do Python**
+Como mencionado anteriormente, as docstrings do Python são strings usadas logo após a definição de uma função, método, classe ou módulo (como no exemplo anterior). Eles são usados para documentar nosso código.
+
+[Documentação Python Docstrings](https://peps.python.org/pep-0257/)
+
+Podemos acessar essas docstrings usando o atributo __ doc__.
+
+***
+    def quadrado(n):
+        '''Recebe um número n, retorna o quadrado de n''' # Literal de string
+        return n**2
+
+    print(quadrado.__doc__)
+
+    # Saída
+    Recebe um número n, retorna o quadrado de n
