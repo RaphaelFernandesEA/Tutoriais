@@ -470,10 +470,23 @@ Uma lista é uma sequência mutável e ordenada de elementos. Ela pode armazenar
 
     fruits.index("maçã")  # retorna o índice onde a fruta está localizada, neste caso, 1
 
-    fruits.sort()  # ordena a lista de frutas
-
     item = fruits.pop(-2) #remove da lista de frutas o penúltimo item, mas não o exclui (serve para atribuir o elemento a uma varíavel).
+
 ***
+⚠️ **Atenção:** O método sort(), altera a lista original ordenando-a e não serve para reatribuição em outra variável, pois não possui nada como retorno. Para isso, deve-se usar o método ***sorted()***.
+
+***
+    fruits = ["laranja", "maçã", "uva", "abacaxi"]
+
+    fruits.sort() #ordena a lista de frutas (modificando-a) - ['abacaxi', 'laranja', 'maçã', 'uva']
+
+    order_fruits = fruits.sort() #retorna none
+
+    order_fruits = sorted(fruits) #retorna as frutas ordenadas na nova variável sem alterar a lista original - ['abacaxi', 'laranja', 'maçã', 'uva']
+
+    order_fruits = sorted(fruits, reverse=True) #retorna as frutas ordenadas em ordem decrescente na nova variável sem alterar a lista original - ['uva', 'maçã', 'laranja', 'abacaxi']
+***
+
 #### **Fatiamento de listas**
 
 Da mesma forma que no método ***range***, é possível "acessar de forma editada" os valores desejados de uma lista, serve também para strings:
@@ -492,9 +505,11 @@ Da mesma forma que no método ***range***, é possível "acessar de forma editad
 
 São similares a listas, porém não podem ser modificados durante a execução do programa.
 
-**user = ("Will", "Marcondes", 42)**  # elementos são definidos separados por vírgula, envolvidos por parênteses
+***
+    **user = ("Will", "Marcondes", 42)**  # elementos são definidos separados por vírgula, envolvidos por parênteses
 
     user[0]  # acesso também por índices
+***
 
 ### **Conjuntos (set)**
 
