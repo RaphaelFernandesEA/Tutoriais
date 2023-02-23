@@ -267,7 +267,7 @@ Esta configuração garante que nosso script será executado utilizando a versã
 
 **⚠️ Para verificar se deu tudo certo, escreva um pequeno código como print("Olá Mundo") e apertando ctrl + alt + N, ou ctrl+ opt +N no MacOS, o código será executado.**
 
-# **Python**
+# **[Python](https://docs.python.org/pt-br/3/library/index.html)**
 
 Um primeiro grande detalhe da linguagem **Python** é a sua simplicidade e legibilidade. Dessa forma, cabe traçar algumas especificidades da linguagem:
 
@@ -366,6 +366,8 @@ O resultado será o caminho para a pasta onde você criou seu ambiente virtual (
 
 ## **Entrada e saída de dados**
 
+### **Entrada**
+
 Uma das maneiras que existem de receber valores em nossos programas é através da função input, que vem embutida na própria linguagem. Esta função está vinculada à entrada padrão do sistema operacional e tem como parâmetro opcional o prompt que, caso seja fornecido, exibirá a mensagem passada para ele em tela. **O valor recebido através da função será do tipo texto (str):**
 
 ***
@@ -393,7 +395,42 @@ A saída será:
     Received ->  4
     Received ->  teste
 ***
+
+### **Saída**
+
+A função ***print** é a principal função para se imprimir um valores em “tela”. Normalmente esta função escreve na saída padrão do sistema operacional, mas é possível modificar este e outros comportamentos.
+
+A função recebe parâmetros de forma variável, ou seja, pode receber nenhum, um, dois ou n parâmetros durante sua invocação. 
+- Seu separador padrão dos argumentos é um espaço em branco, que pode ser alterado:
+
+***
+    print("Os resultados são", 6, 23, 42)  # saída: Os resultados são 6 23 42
+    print("Maria", "João", "Miguel", "Ana")  # saída: Maria João Miguel Ana
+    print("Maria", "João", "Miguel", "Ana", sep=", ")  # saída: Maria, João, Miguel, Ana
+***
+- Além do separador, pode-se também alterar o caractere de fim de linha que, por regra, é uma quebra de linha:
+
+***
+    print("Em duas ")
+    print("linhas.")
+
+    #saída: 
+    Em duas
+    linhas.
+***
+  - Alterando o padrão:
+***
+    print("Na mesma", end=" ")
+    print("linha.")
+
+    #saída:
+    Na mesma linha.
+*** 
+
+
 ## **Tipos de dados embutidos**
+
+#### **[Outros tipos de dados - aprofundamento](https://docs.python.org/3/library/datatypes.html)**
 
 ### **Booleanos (bool)**
 
@@ -415,10 +452,9 @@ O tipo numérico **float**, também conhecido por ponto flutuante, representa um
 
 Uma lista é uma sequência mutável e ordenada de elementos. Ela pode armazenar elementos heterogêneos, ter seu tamanho variável e crescer à medida que itens são adicionados.
 
-
-**fruits = ["laranja", "maçã", "uva", "abacaxi"]** # elementos são definidos separados por vírgula, envolvidos por colchetes
-
 ⚠️ **Acesso e operações:**
+
+    fruits = ["laranja", "maçã", "uva", "abacaxi"] # elementos são definidos separados por vírgula, envolvidos por colchetes
 
     fruits[0]  # o acesso é feito por índices iniciados em 0
 
@@ -426,13 +462,31 @@ Uma lista é uma sequência mutável e ordenada de elementos. Ela pode armazenar
 
     fruits.append("banana")  # adicionando uma nova fruta
 
-    fruits.remove("abacaxi")  # removendo uma fruta
+    fruits.remove("abacaxi")  # removendo uma fruta baseado no critério do seu valor e não na sua posição
+
+    del fruits[0] # remove um item da lista baseado na posição indicada 
 
     fruits.extend(["pera", "melão", "kiwi"])  # acrescenta uma lista de frutas a lista original
 
     fruits.index("maçã")  # retorna o índice onde a fruta está localizada, neste caso, 1
 
     fruits.sort()  # ordena a lista de frutas
+
+    item = fruits.pop(-2) #remove da lista de frutas o penúltimo item, mas não o exclui (serve para atribuir o elemento a uma varíavel).
+***
+#### **Fatiamento de listas**
+
+Da mesma forma que no método ***range***, é possível "acessar de forma editada" os valores desejados de uma lista, serve também para strings:
+
+***
+    fruits = ["laranja", "maçã", "uva", "abacaxi"]
+
+    fruits[0:2] # retorna ["laranja", "maçã"] - iniciando de zero té o indice 2, exclusive
+
+    fruits[0:3:2] # retorna ["laranja", "uva"] - iniciando do indice zero, até o indice 3(exclusive), pulando de dois em dois
+
+    fruits[::-1] # retorna os itens na ordem contrária ["abacaxi", "uva", "maçã", "laranja"]
+***
 
 ### **Tuplas (tuple)**
 
@@ -648,7 +702,7 @@ Com o while pode-se executar um conjunto de declarações enquanto a condição 
 
 ---
 
-👀 Neste caso, foi utilizado um truque chamado atribuição múltipla. Isto é, atribuição de vários valores a múltiplas variáveis ao mesmo tempo. Pode ser utilizado também para fazer a troca de valores entre variáveis: 
+👀 Neste caso, foi utilizado um truque chamado ***atribuição múltipla***. Isto é, atribuição de vários valores a múltiplas variáveis ao mesmo tempo. Pode ser utilizado também para fazer a troca de valores entre variáveis: 
       
 ---
     a, b = b, a
