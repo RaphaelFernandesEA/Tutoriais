@@ -427,7 +427,6 @@ A função recebe parâmetros de forma variável, ou seja, pode receber nenhum, 
     Na mesma linha.
 *** 
 
-
 ## **Tipos de dados embutidos**
 
 #### **[Outros tipos de dados - aprofundamento](https://docs.python.org/3/library/datatypes.html)**
@@ -563,7 +562,7 @@ Estrutura que associa uma chave a um determinado valor. É a representação do 
     del people_by_id[1]
 ---
 
-  **⚠️ Atenção:**
+  **⚠️ Atenção:** Para acessar e trabalhar as chaves e valores de um dicionário se faz necessário o uso do método **dict.items().**
     
     people_by_id.items()  
     # dict_items([(1, "Maria"), (2, "Fernanda"), (3, "Felipe")])
@@ -577,7 +576,7 @@ Estrutura capaz de gerar uma sequência numérica de um valor inicial até um va
 
 **👀 Obs:** O stop não é incluído na sequência, portanto, caso queira uma sequência de 1 até 10 a chamada deverá ser range(1, 11). Seus valores são criados à medida que esta sequência é percorrida.
 
-**Demonstrações:**
+#### **Demonstrações:**
 ---
     # vamos converter o range em uma lista para ajudar na visualização
 
