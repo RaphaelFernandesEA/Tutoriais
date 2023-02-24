@@ -547,22 +547,41 @@ Um conjunto é uma coleção de elementos únicos e não ordenados. Conjuntos im
 
 Estrutura que associa uma chave a um determinado valor. É a representação do tão famoso objeto que utilizamos em JavaScript.
 
-**people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}**  # elementos no formato "chave: valor" separados por vírgula, envolvidos por chaves
+**people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}**  # elementos no formato "chave: valor" separados por vírgula, envolvidos por chaves.
+
+Podemos percorrer os elementos de um Dicionário a partir de suas chaves **dict.keys()** ou a partir de seus valores **dict.values().**
 
 ***
 ⚠️ **Acesso e operações:**
 
+    people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}
+
+    people_by_id.keys() # saída: [1, 2, 3]
+
+    people_by_id.values() # saída: ['Maria', 'Fernanda', 'Felipe']
+
     # outro exemplo, dessa vez usando strings como chaves. As aspas são necessárias para que o Python não ache que `Maria`, `Fernanda` e `Felipe` sejam variáveis.
     people_by_name = {"Maria": 1, "Fernanda": 2, "Felipe": 3}
+
+    people_by_name["Rodrigo"] = 4 # saída: {"Maria": 1, "Fernanda": 2, "Felipe": 3, "Rodrigo": 4} - adiciona uma chave e um valor ao dicionário
 
     # elementos são acessados por suas chaves
     people_by_id[1]  # saída: Maria
 
     # elementos podem ser removidos com a palavra chave del
     del people_by_id[1]
----
 
-  **⚠️ Atenção:** Para acessar e trabalhar as chaves e valores de um dicionário se faz necessário o uso do método **dict.items().**
+**👀 Obs:** No caso de se tentar acessar um elemento do dicionario com uma chave ***inexistente***, ocasionará um erro na aplicação. Para se evitar isso e fazer com que o programa continue rodando, deve se utilizar o método **dict.get():**
+
+    people_by_name.get("Fábio") # saída: None - sem ocasionar erro
+
+    # A função ainda aceita um segundo parâmetro que pode ser uma string explicando o erro
+
+    people_by_name.get("Fábio", "Key not found") # saída: Key not found
+
+***
+
+  **⚠️ Atenção:** Outra forma para acessar e trabalhar as chaves e valores de um dicionário de forma individualizadas é atribui-los como tuplas através do método **dict.items().**
     
     people_by_id.items()  
     # dict_items([(1, "Maria"), (2, "Fernanda"), (3, "Felipe")])
@@ -644,7 +663,7 @@ Dado que a maior parte do tempo estamos percorrendo estruturas, os criadores do 
     print(filtered_restaurants)  # imprime a lista de restaurantes, sem o B e D
 ---
 
-**👀 Observação:** Além de listas, várias outras estruturas são iteráveis, como strings (str), tuplas (tuple), conjuntos (set), dicionários (dict) e até mesmo arquivos.
+**👀 Obs:** Além de listas, várias outras estruturas são iteráveis, como strings (str), tuplas (tuple), conjuntos (set), dicionários (dict) e até mesmo arquivos.
 
 ## **Compreensão de lista (list comprehension)**
 
@@ -702,6 +721,18 @@ Uma compreensão de listas pode também para criar uma lista com o quadrado dos 
     [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ---
 
+## **Compreensão de dicionários (dict comprehension)**
+
+Da mesma forma que na compreensão de listas, é possível fazer com dicionários. Para isso deve-se fazer a atribuição da chave e valor simultaneamente na criação do dicionário e utilizar os **":"** no lugar do **"="** para a atribuição.
+***
+    pessoas = [("Raphael", 1.71), ("Diogenes", 1.63), ("Bruno", 1.80)]
+    dicio = {nome:altura for nome, altura in pessoas} # saída: {"Raphael": 1.71, "Diogenes": 1.63, "Bruno": 1.80}
+***
+👀 **Observação:** De forma similar e mais rápida, pode-se usar a função **dict()**, podendo ser usada para listas de tuplas ou listas de listas:
+***
+    dicio = dict(pessoas) #saída: {"Raphael": 1.71, "Diogenes": 1.63, "Bruno": 1.80}
+⚠️  **Atenção:** O método só funciona com pares de valores. Sendo assim, ocasionará erro se tiver alguma estrutura com mais de dois elementos.
+***
 ### **while**
 
 Com o while pode-se executar um conjunto de declarações enquanto a condição for verdadeira. No código abaixo é implementada uma Sequência de Fibonacci, presente em diversas formas na natureza. É uma sequência numérica começando por 0 e 1, e cada termo subsequente corresponde à soma dos dois anteriores:
