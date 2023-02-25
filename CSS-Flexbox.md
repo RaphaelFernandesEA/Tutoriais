@@ -100,4 +100,4 @@ Os elementos presentes em um **Flex container** são chamados de **Flex items**.
       }
       flex-grow - flex-shrink - flex-basis
 
-      👀 Observação: Na utilização de apenas 2 parametros o CSS entende que estão sendo passados apenas o flex-grow e o flex-basis.
+👀 Observação: Na utilização de apenas 2 parametros o CSS entende que estão sendo passados apenas o flex-grow e o flex-basis.
