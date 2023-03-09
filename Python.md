@@ -1,5 +1,5 @@
 # Preparando o ambiente Python
-Versões mais atuais do ubuntu (ou similares) já vem com o python 3 instalado, e inclusive, a partir da versão 17.10, essa passa a ser a versão padrão do sistema.
+Versões mais atuais do ubuntu (ou similares) e Mac já vem com o python 3 instalado, e inclusive, a partir da versão 17.10, essa passa a ser a versão padrão do sistema.
 
 Caso python 3 não esteja instalado, utilize:
 ***
@@ -352,7 +352,7 @@ Para crição de um ambiente virtual usa-se o comando **na raiz do projeto:**
 
 Este ambiente isolado será visto como um diretório criado na raiz do projeto. O ponto na frente do nome faz com que o diretório fique oculto.
 
-Depois de criado, temos que ativar este ambiente para usá-lo. Isto é importante pois sempre que decidirmos trabalhar neste projeto devemos repetir este passo.
+Depois de criado, tem-se que ativar este ambiente para usá-lo. Isto é importante pois sempre que decidirmos trabalhar neste projeto devemos repetir este passo.
 
 ***
     source .venv/bin/activate
@@ -363,6 +363,12 @@ Para conferir se o comando de ativação do ambiente virtual deu certo:
     which python3
 ***
 O resultado será o caminho para a pasta onde você criou seu ambiente virtual (pwd), acrescido de ***".venv/bin/python3"*** e o ambiente estará preparado para a instalação das bibliotecas que precisaremos nos projetos.
+
+Quando precisar desativar o ambiente virtual, execute o comando:
+***
+    deactivate
+***
+**⚠️ Atenção:** Lembrar de ativar novamente quando voltar a trabalhar no projeto.
 
 ## **Entrada e saída de dados**
 
@@ -398,7 +404,7 @@ A saída será:
 
 ### **Saída**
 
-A função ***print** é a principal função para se imprimir um valores em “tela”. Normalmente esta função escreve na saída padrão do sistema operacional, mas é possível modificar este e outros comportamentos.
+A função **print** é a principal função para se imprimir um valores em “tela”. Normalmente esta função escreve na saída padrão do sistema operacional, mas é possível modificar este e outros comportamentos.
 
 A função recebe parâmetros de forma variável, ou seja, pode receber nenhum, um, dois ou n parâmetros durante sua invocação. 
 - Seu separador padrão dos argumentos é um espaço em branco, que pode ser alterado:
@@ -427,6 +433,20 @@ A função recebe parâmetros de forma variável, ou seja, pode receber nenhum, 
     Na mesma linha.
 *** 
 
+### **Desempacotamento de valores**
+
+O desempacotamento de valores é um recurso muito útil de Python quando queremos separar os valores recebidos em variáveis diferentes. Quando há uma atribuição múltipla e o valor da direita pode ser percorrido, o Python entende que deve atribuir cada um dos valores a uma variável da esquerda, seguindo a ordem.
+
+***
+    a, b = "cd"
+    print(a)  # saída: c
+    print(b)  # saída: d
+
+    head, *tail = (1, 2, 3) # Quando um * está presente no desempacotamento, os valores são desempacotados em formato de lista.
+    print(head)  # saída: 1
+    print(tail)  # saída: [2, 3]
+***
+
 ## **Tipos de dados embutidos**
 
 #### **[Outros tipos de dados - aprofundamento](https://docs.python.org/3/library/datatypes.html)**
@@ -445,7 +465,11 @@ O tipo numérico **float**, também conhecido por ponto flutuante, representa um
 
 ### **Strings (str)**
 
-**str** representa uma cadeia de caracteres ou, como popularmente conhecida, uma string. As strings são definidas envolvendo um valor com aspas simples ou duplas.
+**str** representa uma cadeia de caracteres ou, como popularmente conhecida, uma string. As strings são definidas envolvendo um valor com aspas simples ou duplas. Sabemos que por vezes valores numéricos podem ser passados como strings e para contornar tal situação, o método **isdigit**, embutido no tipo **str**, pode ser utilizado para verificar se a string corresponde a um número natural.
+
+***
+    string.isdigit()    # O método isdigit() retorna True se todos os caracteres forem dígitos, caso contrário, False.
+***
 
 ### **Listas (list)**
 
@@ -514,10 +538,10 @@ São similares a listas, porém não podem ser modificados durante a execução 
 
 Um conjunto é uma coleção de elementos únicos e não ordenados. Conjuntos implementam operações de união, intersecção e outras.
 
-**permissions = {"member", "group"}**  # elementos separados por vírgula, envolvidos por chaves
-
 ⚠️ **Acesso e operações:**
 ***
+    permissions = {"member", "group"}  # elementos separados por vírgula, envolvidos por chaves
+
     permissions.add("root")  # adiciona um novo elemento ao conjunto
 
     permissions.add("member")  # como o elemento já existe, nenhum novo item é adicionado ao conjunto
@@ -533,10 +557,11 @@ Um conjunto é uma coleção de elementos únicos e não ordenados. Conjuntos im
 
 É uma variação do set, porém imutável, ou seja, seus elementos não podem ser modificados durante a execução do programa.
 
-**permissions = frozenset(["member", "group"])**  # assim como o set, qualquer estrutura iterável pode ser utilizada para criar um frozenset
 
 ⚠️ **Acesso e operações:**
 ***
+    permissions = frozenset(["member", "group"])  # assim como o set, qualquer estrutura iterável pode ser utilizada para criar um frozenset
+    
     permissions.union({"user"})  # novos conjuntos imutáveis podem ser criados à partir do original, mas o mesmo não pode ser modificado
 
     permissions.intersection({"user", "member"})  # retorna um conjunto resultante da intersecção dos conjuntos
@@ -547,7 +572,28 @@ Um conjunto é uma coleção de elementos únicos e não ordenados. Conjuntos im
 
 Estrutura que associa uma chave a um determinado valor. É a representação do tão famoso objeto que utilizamos em JavaScript.
 
-**people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}**  # elementos no formato "chave: valor" separados por vírgula, envolvidos por chaves.
+O modo mais simples de criar um dicionário:
+***
+    people_by_id = {1: "Maria", 2: "Fernanda", 3: "Felipe"}  # elementos no formato "chave: valor" separados por vírgula, envolvidos por chaves.
+***
+
+Também podemos utilizar a função dict do próprio Python (built-in function), passando as chaves e valores como parâmetros:
+
+***
+    dicio = dict(primeiro=1, segundo=2, terceiro=3)
+***
+
+Utilizando a função zip para concatenar a chave:valor em um elemento do objeto dict:
+
+***
+    dicio_3 = dict(zip(['primeiro', 'segundo', 'terceiro'], [1, 2, 3]))
+***
+
+Utilizando uma lista de tuplas com itens simbolizando chave e valor em um objeto dict:
+
+***
+    dicio_4 = dict([('primeiro', 1), ('segundo', 2), ('terceiro', 3)])
+***
 
 Podemos percorrer os elementos de um Dicionário a partir de suas chaves **dict.keys()** ou a partir de seus valores **dict.values().**
 
@@ -937,3 +983,28 @@ Podemos acessar essas docstrings usando o atributo __ doc__.
 
     # Saída
     Recebe um número n, retorna o quadrado de n
+
+## **Manipulação de arquivos**
+
+Para manipulação de arquivos em Python, deve-se fazer uso da função open. Por padrão, arquivos são abertos somente para leitura, mas podemos modificar isto passando o modo com que vamos abrir o arquivo para escrita *mode="w"*
+
+***
+    file = open("arquivo.txt", mode="w")  # ao abrir um arquivo para escrita, um novo arquivo é criado mesmo que ele já exista, sobrescrevendo o antigo.
+***
+Para escrever um conteúdo em um arquivo utilizamos a função write
+
+    file = open("arquivo.txt", mode="w")
+
+    file.write("nome idade\n")
+    file.write("Maria 45\n")    # o \n indica uma quebra de linha no arquivo em questão.
+***
+Outra forma de se escrever em arquvos é através do redirecionamento do conteúdo digitado dentro do print para o arquivo destino:
+***
+    print("Túlio 22", file=file)
+***
+
+Para escrever múltiplas linhas podemos utilizar a função writelines:
+
+    LINES = ["Alberto 35\n", "Betina 22\n", "João 42\n", "Victor 19\n"]
+    
+    file.writelines(LINES)
