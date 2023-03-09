@@ -986,25 +986,127 @@ Podemos acessar essas docstrings usando o atributo __ doc__.
 
 ## **Manipulação de arquivos**
 
-Para manipulação de arquivos em Python, deve-se fazer uso da função open. Por padrão, arquivos são abertos somente para leitura, mas podemos modificar isto passando o modo com que vamos abrir o arquivo para escrita *mode="w"*
-
+Para manipulação de arquivos em Python, deve-se fazer uso da função **open()**. Por padrão, arquivos são abertos somente para leitura, mas podemos modificar isto passando o modo com que vamos abrir o arquivo para leitura **mode="r"** ou escrita **mode="w"**
+- A leitura do conteúdo de um arquivo pode ser feita utilizando a função **read()**:
 ***
-    file = open("arquivo.txt", mode="w")  # ao abrir um arquivo para escrita, um novo arquivo é criado mesmo que ele já exista, sobrescrevendo o antigo.
-***
-Para escrever um conteúdo em um arquivo utilizamos a função write
+    file = open("arquivo.txt", mode="r")
+    content = file.read()
 
-    file = open("arquivo.txt", mode="w")
+    print(content)
+
+    file.close()  # não podemos esquecer de fechar o arquivo
+***
+
+- Para escrever um conteúdo em um arquivo utilizamos a função **write():**
+***
+    file = open("arquivo.txt", mode="w")    # ao abrir um arquivo para escrita, um novo arquivo é criado mesmo que ele já exista, sobrescrevendo o antigo.
 
     file.write("nome idade\n")
     file.write("Maria 45\n")    # o \n indica uma quebra de linha no arquivo em questão.
 ***
-Outra forma de se escrever em arquvos é através do redirecionamento do conteúdo digitado dentro do print para o arquivo destino:
+
+- Outra forma de se escrever em arquvos é através do redirecionamento do conteúdo digitado dentro do print para o arquivo destino:
 ***
     print("Túlio 22", file=file)
 ***
 
-Para escrever múltiplas linhas podemos utilizar a função writelines:
+- Para escrever múltiplas linhas podemos utilizar a função writelines:
 
+***
     LINES = ["Alberto 35\n", "Betina 22\n", "João 42\n", "Victor 19\n"]
     
     file.writelines(LINES)
+
+⚠️ ⚠️ ⚠️ **ATENÇÂO :** Pelo fato de termos uma quantidade limite de arquivos que podemos abrir de uma só vez e um erro é retornado quando atingimos esse limite, devemos ***SEMPRE*** fechar os arquivos abertos.
+
+Outro motivo importante para se fechar os arquivos é que normalmente a manipulação de arquivos é feita através de buffers. Ou seja, a escrita em disco pode não ser imediata. Quando fechamos o arquivo, garantimos que tudo aquilo que ainda não está escrito seja persistido.
+
+***
+    file.close()
+***
+
+### **with 👾**
+- Com o uso da palavra-chave **with** junto com a função **open()**, o arquivo será aberto e; enquanto dentro do contexto do bloco da função with, é possível fazer a manipulação do arquivo; no fim do bloco da função, o arquivo é automaticamente fechado.
+
+***
+    with open("pokemons.json") as file:
+        content = file.read()  # leitura do arquivo
+
+            # não necessita de fechar o arquivo, evitando erros no código
+***
+### **Manipulação de arquivos JSON**
+
+JSON é um formato textual muito utilizado para integração de sistemas. Ele é baseado em um subconjunto de regras JavaScript, embora seja independente de linguagem.
+
+Por sua legibilidade e tamanho (é bem leve), além da facilidade de leitura e escrita por seres humanos e máquinas, vem sendo bastante utilizado na web e para troca de informações entre sistemas.
+
+A linguagem Python já inclui um módulo para manipulação desse tipo de arquivo e seu nome é json.
+
+- Seus principais métodos para manipulação são: **load, loads, dump, dumps.**
+
+***
+    import json  # json é um modulo que vem embutido, porém precisamos importá-lo
+
+    with open("pokemons.json") as file:
+        content = file.read()  # leitura do arquivo
+        pokemons = json.loads(content)["results"]  # o conteúdo é transformado em estrutura python equivalente, dicionário neste caso.
+        # acessamos a chave results que é onde contém nossa lista de pokemons
+
+    print(pokemons[0])  # imprime o primeiro pokemon da lista
+***
+
+- 👀 **OBS:** A leitura pode ser feita diretamente do arquivo, utilizando o método **load** ao invés de **loads**. 
+
+    - ⚠️ **Atenção :** *O **loads** carrega o JSON a partir de um texto e o **load** carrega o JSON a partir de um arquivo.*
+***
+    import json
+
+
+    with open("pokemons.json") as file:
+        pokemons = json.load(file)["results"]
+
+    print(pokemons[0])  # imprime o primeiro pokemon da lista
+***
+
+- A escrita de arquivos no formato JSON é similar à escrita de arquivos comuns, porém temos que transformar os dados primeiro.
+
+***
+    import json
+
+    # Leitura de todos os pokemons
+    with open("pokemons.json") as file:
+        pokemons = json.load(file)["results"]
+
+    # Separamos somente os do tipo grama
+    grass_type_pokemons = [
+        pokemon for pokemon in pokemons if "Grass" in pokemon["type"]
+    ]
+
+    # Abre o arquivo para escrevermos apenas o pokemons do tipo grama
+    with open("grass_pokemons.json", "w") as file:
+        json_to_write = json.dumps(
+            grass_type_pokemons
+        )  # conversão de Python para o formato json (str)
+        file.write(json_to_write)
+***
+
+- **👀 OBS:** Assim como a desserialização, que faz a **transformação de texto em formato JSON para Python**, a serialização (caminho inverso) possui um método equivalente para **escrever em arquivos JSON de forma direta.**
+
+***
+    import json
+
+    # leitura de todos os pokemons
+    with open("pokemons.json") as file:
+        pokemons = json.load(file)["results"]
+
+    # separamos somente os do tipo grama
+    grass_type_pokemons = [
+        pokemon for pokemon in pokemons if "Grass" in pokemon["type"]
+    ]
+
+    # abre o arquivo para escrita
+    with open("grass_pokemons.json", "w") as file:
+        # escreve no arquivo já transformando em formato json a estrutura
+        json.dump(grass_type_pokemons, file)
+
+### **Manipulação de arquivos CSV**
