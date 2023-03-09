@@ -1110,3 +1110,159 @@ A linguagem Python já inclui um módulo para manipulação desse tipo de arquiv
         json.dump(grass_type_pokemons, file)
 
 ### **Manipulação de arquivos CSV**
+
+O formato CSV (Comma Separated Values) é muito comum em exportações de planilhas de dados e base de dados. Foi utilizado por muito tempo antes de sua definição formal, o que gerou uma despadronização deste formato e o surgimento de vários dialetos.
+
+Cada dialeto tem seus próprios delimitadores e caracteres de citação, porém o formato geral é semelhante o suficiente para utilizarmos o mesmo módulo para este processamento.
+
+Ainda que seu nome indique que o delimitador seja a “,“ (vírgula), existem variações que utilizam “;“ (ponto e vírgula) ou até mesmo tabulações (“\t“).
+O módulo csv, contém duas principais funções:
+
+- Um leitor (reader) que nos ajuda a ler o conteúdo, já fazendo as transformações dos valores para Python;
+
+- E um escritor (writer) para facilitar a escrita nesse formato.
+
+***
+    import csv
+
+    with open("graduacao_unb.csv", encoding = "utf-8") as file:
+        graduacao_reader = csv.reader(file, delimiter=",", quotechar='"')
+        # Usando o conceito de desempacotamento
+        header, *data = graduacao_reader
+
+    print(data)
+    group_by_department = {}
+    for row in data:
+        department = row[15]
+        if department not in group_by_department:
+            group_by_department[department] = 0
+        group_by_department[department] += 1
+
+    # Escreve o relatório em .csv
+    # Abre um arquivo para escrita
+    with open("department_report.csv", "w", encoding = "utf-8") as file:
+        writer = csv.writer(file)
+
+        # Escreve o cabeçalho
+        headers = [
+            "Departamento",
+            "Total de Cursos",
+        ]
+        writer.writerow(headers)
+
+        # Escreve as linhas de dados
+        # Desempacotamento de valores
+        for department, grades in group_by_department.items():
+            # Agrupa o dado com o turno
+            row = [
+                department,
+                grades,
+            ]
+            writer.writerow(row)
+***
+
+O leitor define como dialeto padrão excel, o que significa dizer que o delimitador de campos será “,“ e o caractere de citação será aspas duplas ("). Uma forma de modificar estes padrões é definindo-os de forma diferente na criação do leitor. Além disso, o leitor irá usar o decodificador padrão do sistema para decodificar em unicode o arquivo .csv. Para utilizar um decodificador diferente, deve ser passado o argumento encoding com o valor do decodificador esperado. Um leitor de .csv pode ser percorrido utilizando o laço de repetição for e, a cada iteração, retorna uma nova linha já transformada em uma lista Python com seus respectivos valores.
+***
+#### **DictReader()**
+
+Existem ainda o leitor e o escritor baseados em dicionários. A principal vantagem é que não precisamos manipular os índices para acessar os dados das colunas. A desvantagem é o espaço ocupado em memória (que é maior que o comum), devido à estrutura de dados utilizada.
+
+    import csv
+
+    # lê os dados
+    with open("graduacao_unb.csv", encoding = "utf-8") as file:
+        graduacao_reader = csv.DictReader(file, delimiter=",", quotechar='"')
+
+        # a linha de cabeçalhos é utilizada como chave do dicionário
+        # agrupa cursos por departamento
+        group_by_department = {}
+        for row in graduacao_reader:
+            department = row["unidade_responsavel"]
+            if department not in group_by_department:
+                group_by_department[department] = 0
+            group_by_department[department] += 1
+
+    # abre um arquivo para escrita
+    with open("new_department_report.csv", "w", encoding = "utf-8") as file:
+        # os valores a serem escritos devem ser dicionários
+        headers = [
+            "Departamento",
+            "Total de Cursos",
+        ]
+        # É necessário passar o arquivo e o cabeçalho
+        writer = csv.DictWriter(file, fieldnames=headers)
+        writer.writeheader()
+        # escreve as linhas de dados
+        for department, grades in group_by_department.items():
+            # Agrupa o dado com o turno
+            row = {"Departamento": department, "Total de Cursos": grades}
+            writer.writerow(row)
+
+## **Lidando com exceções**
+
+Erros podem acontecer: um arquivo pode não existir, permissões podem faltar e codificações podem falhar. Por isso temoos que garantir que, ainda que um erro ocorra, faremos o fechamento do nosso arquivo.
+
+Há pelo menos dois tipos de erros que podem ser destacados: **erros de sintaxe e exceções.**
+
+### **Erros de Sintaxe**
+
+Erros de sintaxe ocorrem quando o código utiliza recursos inexistentes da linguagem que não consegue interpretá-los. É como executar print{"Olá, mundo!"} em vez de print("Olá, mundo!").
+
+### **Exceções**
+
+Já as exceções ocorrem durante a execução e resultam em mensagem de erro. Veja exemplos de exceções:
+
+    print(10 * (1 / 0))
+    # Traceback (most recent call last):
+    #   File "<stdin>", line 1, in <module>
+    # ZeroDivisionError: division by zero
+    print(4 + spam * 3)
+    # Traceback (most recent call last):
+    #   File "<stdin>", line 1, in <module>
+    # NameError: name 'spam' is not defined
+    print('2' + 2)
+    # Traceback (most recent call last):
+    #   File "<stdin>", line 1, in <module>
+    # TypeError: can only concatenate str (not "int") to str
+
+Lista completa de **[exceções já embutidas na linguagem.](https://docs.python.org/pt-br/3/library/exceptions.html#bltin-exceptions)**
+
+### **Tratamento de exceções**
+
+Para tratar exceções utilizamos o conjunto de instruções try, com as palavras reservadas **try** e **except**. O funcionamento dessa cláusula ocorre da seguinte forma:
+
+- Se nenhuma exceção ocorrer, a cláusula except é ignorada e a execução da instrução try é finalizada.
+
+- Se ocorrer uma exceção durante a execução da cláusula try, as instruções remanescentes na cláusula são ignoradas. Se o tipo da exceção ocorrida tiver sido previsto em algum except, então essa cláusula será executada.
+
+- Se não existir nenhum tratador previsto para tal exceção, trata-se de uma exceção não tratada e a execução do programa termina com uma mensagem de erro.
+
+***
+    while True:
+        try:
+            x = int(input("Please enter a number: "))
+            break
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
+***
+
+⚠️ **FINALLY** 
+
+Sempre devemos fechar um arquivo e podemos, em um bloco **try**, fazer isso utilizando a instrução **finally** ou **else**. O **finally** é uma outra cláusula do conjunto **try**, cuja finalidade é permitir a implementação de ações de limpeza, que sempre devem ser executadas independentemente da ocorrência de ações. Já o **else** ocorre sempre que todo o **try** for bem sucedido.
+
+***
+    try:
+        arquivo = open("arquivo.txt", "r")
+    except OSError:
+        # será executado caso haja uma exceção
+        print("arquivo inexistente")
+    else:
+        # será executado se tudo ocorrer bem no try
+        print("arquivo manipulado e fechado com sucesso")
+        arquivo.close()
+    finally:
+        # será sempre executado, independentemente de erro
+        print("Tentativa de abrir arquivo")
+***
+
+- **⚠️ Atenção:** Como estamos abrindo o arquivo em modo de leitura, uma exceção será levantada caso ele não exista, executando as cláusulas except e finally. Entretanto, se alterarmos o modo para escrita, o arquivo será criado mesmo se inexistente, executando as cláusulas else e finally.
