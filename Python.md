@@ -1263,6 +1263,127 @@ Sempre devemos fechar um arquivo e podemos, em um bloco **try**, fazer isso util
     finally:
         # será sempre executado, independentemente de erro
         print("Tentativa de abrir arquivo")
+
+
+- **⚠️ Atenção:** Como estamos abrindo o arquivo em modo de leitura, uma exceção será levantada caso ele não exista, executando as cláusulas except e finally. Entretanto, se alterarmos o modo para escrita, o arquivo será criado mesmo se inexistente, executando as cláusulas **else** e **finally.**
 ***
 
-- **⚠️ Atenção:** Como estamos abrindo o arquivo em modo de leitura, uma exceção será levantada caso ele não exista, executando as cláusulas except e finally. Entretanto, se alterarmos o modo para escrita, o arquivo será criado mesmo se inexistente, executando as cláusulas else e finally.
+## **Testes em Python - Pytest**
+
+A biblioteca **pytest,** é um framework que facilita a escrita de testes simples, mas capazes de testar funcionalidades complexas em aplicações e bibliotecas.
+
+A instalação é feita através do pip utilizando o comando:
+
+***
+    python3 -m pip install pytest
+
+⚠️ **Atenção:** Lembrar de instalar a biblioteca somente no ambiente virtual do projeto.
+***
+
+Verificar  a instalação utilizando o comando:
+
+***
+    python3 -m pytest --version
+    # A saída esperada é similar à:
+
+    This is pytest version 5.3.0, imported from /home/cassiobotaro/projects/gerenciador-tarefas/.venv/lib/python3.8/site-packages/pytest.py
+***
+- Para que seus testes sejam descobertos pela ferramenta, o nome do arquivo de testes deve possuir o prefixo ***test_***, assim como a definição das funções de teste.
+
+- Uma função de teste é similar a qualquer outra, porém tem o propósito de verificar se o resultado obtido foi o mesmo do esperado. No código, isto é feito através da utilização da palavra reservada **assert.**
+
+- O comando **assert** funciona da seguinte maneira: caso a expressão recebida seja verdadeira (avaliada como True), nada acontece. Porém, caso seja falsa (avaliada como False), uma exceção do tipo *AssertionError* é lançada. A pytest captura este erro e tenta apresentar uma comparação entre o esperado e o recebido da melhor maneira possível.
+
+***
+    codigo.py
+
+    def is_odd(number):
+        'Retorna True se um número é ímpar, senão False.'
+        return number % 2 != 0
+
+    def divide(a_number, other_number):
+        "Retorna a divisão de a_number por other_number"
+        return a_number / other_number
+***
+    test_codigo.py
+
+    from codigo import is_odd, divide
+
+    def test_is_odd_when_number_is_odd_returns_true():
+        'Para um número ímpar a função deve retornar o valor True'
+        assert is_odd(3) is True
+
+    def test_is_odd_when_number_is_even_returns_false():
+        'Para um número par a função deve retornar o valor False'
+        assert is_odd(2) is False
+
+    def test_divide_when_other_number_is_zero_raises_an_exception():
+        with pytest.raises(ZeroDivisionError, match="division by zero"):
+            divide(2, 0)
+
+**⚠️ Atenção:** Utilizamos a função raises da pytest para verificar se a exceção ocorreu. Caso contrário, ela lança um AssertionError, indicando que o teste não passou. Podemos verificar também se o texto retornado na exceção é o esperado através do parâmetro match, que pode receber uma expressão regular. No exemplo, temos uma divisão por zero, que lança a exceção esperada e o teste passa com sucesso.
+***
+
+- Para rodar os testes e ver o resultado:
+
+***
+    python3 -m pytest
+***
+
+### **Contexto de testes**
+
+ Ao escrever testes e pensar em cenários distintos que podem ocorrer no sistema: “dado um arquivo com as seguintes linhas”, “visto que temos um banco de dados com um dado registro” ou “a partir de um cliente web”. Damos o nome de *test fixture* (ou apenas fixture) às precondições ou estados necessários para a execução de um teste.
+
+Cada teste pode ter seu próprio cenário (contexto) ou compartilhá-lo com outros testes.
+
+***
+
+    # get_most_ordered_dish_per_costumer é uma função que retorna o prato mais pedido por uma
+    # determinada pessoa cliente, considerando que os pedidos estão em uma lista.
+
+    # get_order_frequency_per_costumer é uma função que retorna a frequência que uma determinada
+    # pessoa cliente pede um determinado prato, considerando que os pedidos estão em uma lista.
+
+
+    # uma fixture utilizando a biblioteca pytest
+    # é definida utilizando a sintaxe abaixo
+    @pytest.fixture
+    def orders():
+        """Nosso cenário (contexto) temos os seguintes pedidos"""
+        return [
+            {"customer": "maria", "order": "pizza", "day": "terça-feira"},
+            {"customer": "joao", "order": "hamburger", "day": "terça-feira"},
+            {"customer": "maria", "order": "pizza", "day": "quarta-feira"},
+            {"customer": "maria", "order": "hamburger", "day": "quinta-feira"},
+        ]
+
+    # estamos adicionando a fixture "orders" ao teste
+    # ou seja, temos um contexto onde os pedidos são os definidos anteriormente
+    def test_get_most_ordered_dish_per_costumer_when_customer_is_maria(orders):
+        assert get_most_ordered_dish_per_costumer(orders, "maria") == "pizza"
+
+    # novamente adicionamos um cenário (contexto) ao teste onde os pedidos realizados são os
+    # definidos na fixture
+    def test_get_order_frequency_per_costumer_when_customer_is_joao_and_order_is_pizza(orders):
+        assert get_order_frequency_per_costumer(orders, "joao", "pizza") == 0
+
+    def test_get_order_frequency_per_costumer_when_customer_is_maria_and_order_is_hamburger(orders):
+        assert get_order_frequency_per_costumer(orders, "maria", "hamburger") == 1
+**⚠️ Atenção:** É importante ressaltar que este contexto poderia ser a abertura de uma conexão com o banco de dados, uma referência à conexão a um cliente web, um arquivo temporário ou qualquer outro contexto. Também vale lembrar que é possível usar mais de um contexto por teste caso seja necessário, bem como um contexto dentro de outro.
+***
+
+### **Dublês de teste**
+
+Na literatura encontramos as técnicas de dublê com os nomes fakes, mocks, stubs e spies. De uma forma bem resumida, podemos defini-las da seguinte maneira:
+
+- Fakes: Objetos que possuem implementações funcionais, porém normalmente simplificadas;
+
+- Mocks: São pré programados para verificar as chamadas das funções que receberem;
+
+- Stubs: Fornecem respostas predefinidas;
+
+- Spies: São como stubs, mas também armazenam informações de como foram chamados.
+
+
+
+
